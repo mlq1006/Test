@@ -59,22 +59,40 @@ public class PlayerAnimation : MonoBehaviour {
                 UISpriteData uisd = atlas.GetSprite(spriteName);
                 bodySprite.width = uisd.width;
                 bodySprite.height = uisd.height;
+                Debug.Log(currentData.namePrefix + spriteList.size);
                 bodySprite.transform.localPosition = currentData.bodyPosition[frameCount];
                 headSprite.transform.localPosition = currentData.headPosition[frameCount];
                 frameCount++;
             }
 
-            if (playStatus.Equals(PlayStatus.start) && frameCount == spriteList.size)
+            if(frameCount >= spriteList.size)
             {
-                SetPlayerStatus(PlayStatus.idle);
-            }
+                if (playStatus.Equals(PlayStatus.start) || playStatus.Equals(PlayStatus.cast))
+                {
+                    SetPlayerStatus(PlayStatus.idle);
+                }
 
-            if (playStatus.Equals(PlayStatus.idle) && frameCount == spriteList.size)
-            {
-                frameCount = 0;
+                if (playStatus.Equals(PlayStatus.idle) || playStatus.Equals(PlayStatus.spellcast))
+                {
+                    frameCount = 0;
+                }
             }
-
             timer = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            SetPlayerStatus(PlayStatus.spellcast);
+        }
+
+        if(Input.GetKeyUp(KeyCode.A))
+        {
+            SetPlayerStatus(PlayStatus.idle);
+        }
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            SetPlayerStatus(PlayStatus.cast);
         }
     }
 
