@@ -59,9 +59,18 @@ public class PlayerAnimation : MonoBehaviour {
                 UISpriteData uisd = atlas.GetSprite(spriteName);
                 bodySprite.width = uisd.width;
                 bodySprite.height = uisd.height;
-                Debug.Log(currentData.namePrefix + spriteList.size);
                 bodySprite.transform.localPosition = currentData.bodyPosition[frameCount];
                 headSprite.transform.localPosition = currentData.headPosition[frameCount];
+                bodySprite.transform.localScale = Vector3.one;
+                if(playStatus.Equals(PlayStatus.cast))
+                {
+                    Vector3 headPos = new Vector3(headSprite.transform.localPosition.x * PublicGameData.playerMoveDir
+                        , headSprite.transform.localPosition.y
+                        , headSprite.transform.localPosition.z
+                        );
+                    bodySprite.transform.localScale = new Vector3(PublicGameData.playerMoveDir,1,1);
+                    headSprite.transform.localPosition = headPos;
+                }
                 frameCount++;
             }
 
@@ -90,7 +99,7 @@ public class PlayerAnimation : MonoBehaviour {
             SetPlayerStatus(PlayStatus.idle);
         }
 
-        if(Input.GetKeyDown(KeyCode.S))
+        if(Input.GetMouseButtonUp(0))
         {
             SetPlayerStatus(PlayStatus.cast);
         }
