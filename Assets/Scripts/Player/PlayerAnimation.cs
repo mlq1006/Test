@@ -44,6 +44,15 @@ public class PlayerAnimation : MonoBehaviour {
 
         currentData = GetCurrentAnimation();
         timerFrame = 1f / currentData.framerate;
+        GameController.instance.MouseUp += () => 
+        {
+            SetPlayerStatus(PlayStatus.cast);
+        };
+
+        GameController.instance.MouseDown += () =>
+        {
+            SetPlayerStatus(PlayStatus.spellcast);
+        };
      
     }
 
@@ -87,21 +96,6 @@ public class PlayerAnimation : MonoBehaviour {
                 }
             }
             timer = 0;
-        }
-
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            SetPlayerStatus(PlayStatus.spellcast);
-        }
-
-        if(Input.GetKeyUp(KeyCode.A))
-        {
-            SetPlayerStatus(PlayStatus.idle);
-        }
-
-        if(Input.GetMouseButtonUp(0))
-        {
-            SetPlayerStatus(PlayStatus.cast);
         }
     }
 

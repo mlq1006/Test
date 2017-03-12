@@ -25,8 +25,6 @@ public class EnemyController : MonoBehaviour {
         drag = 0.9f;
         rigidBody2D = this.GetComponent<Rigidbody2D>();
         balloonList.Clear();
-        CreateBalloon();
-        CreateBalloon();
     }
 
     void FixedUpdate()
@@ -37,7 +35,7 @@ public class EnemyController : MonoBehaviour {
             currentSpeed -= drag;
         }
 
-        //rigidBody2D.AddForce(Vector2.down * currentSpeed, ForceMode2D.Force);
+        rigidBody2D.AddForce(Vector2.down * currentSpeed, ForceMode2D.Force);
 
         if(Input.GetKeyDown(KeyCode.J))
         {
@@ -53,7 +51,7 @@ public class EnemyController : MonoBehaviour {
       
     }
 
-    public void CreateBalloon()
+    public void CreateBalloon(int balloonCount)
     {
         int count = balloonList.Count;
         int numDir = count % 2 == 0 ? 1 : -1;

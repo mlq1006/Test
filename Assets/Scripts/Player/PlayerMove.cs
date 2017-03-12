@@ -9,19 +9,17 @@ public class PlayerMove : MonoBehaviour {
     void Awake()
     {
         uicamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-    }
-    void Update()
-    {
-        if(Input.GetMouseButtonUp(0))
-        {
-            targetPos = uicamera.ScreenToWorldPoint(Input.mousePosition);
-            targetPos.y = transform.position.y;
-            targetPos.z = transform.position.z;
-            PublicGameData.playerMoveDir = transform.position.x < targetPos.x ? 1 : -1;
-            StartCoroutine(StartMove());
-        }
+        GameController.instance.MouseUp += MouseUp;
     }
 
+    private void MouseUp()
+    {
+        targetPos = uicamera.ScreenToWorldPoint(Input.mousePosition);
+        targetPos.y = transform.position.y;
+        targetPos.z = transform.position.z;
+        PublicGameData.playerMoveDir = transform.position.x < targetPos.x ? 1 : -1;
+        StartCoroutine(StartMove());
+    }
 
     IEnumerator StartMove()
     {
