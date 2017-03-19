@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour {
       
     }
 
-    public void CreateBalloon(int balloonCount)
+    public void CreateBalloon(int balloonCount,bool isDark = false)
     {
         int count = balloonList.Count;
         int numDir = count % 2 == 0 ? 1 : -1;

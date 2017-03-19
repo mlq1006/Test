@@ -15,6 +15,7 @@ public class BalloonController : MonoBehaviour {
     {
         animator = this.GetComponent<Animator>();
         rigidbody = this.GetComponent<Rigidbody2D>();
+        GameController.Instance.MagicGesture += BalloonPop;
     }
 
     public void Init(Transform targetPos)
@@ -45,14 +46,15 @@ public class BalloonController : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            BalloonPop();
-        }
+        //if(Input.GetKeyDown(KeyCode.P))
+        //{
+        //    BalloonPop();
+        //}
     }
 
-    void BalloonPop()
+    void BalloonPop(string name)
     {
+        Debug.Log("magicName:"+ name);
         //animator.Play(Animator.StringToHash("Pop"),0);
         animator.enabled = true;
     }

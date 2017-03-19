@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour {
     void Awake()
     {
         uicamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        GameController.instance.MouseUp += MouseUp;
+        GameController.Instance.MouseUp += MouseUp;
     }
 
     private void MouseUp()

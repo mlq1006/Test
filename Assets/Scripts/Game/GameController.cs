@@ -1,18 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void CallBack();
+public delegate void CallBack<T>(T t);
+public delegate void CallBack<T,K>(T t,K k);
+
 public class GameController : MonoBehaviour {
 
-    public static GameController instance;
+    private static GameController instance;
 
-    public delegate void EventHandler();
-    public EventHandler MouseDown;
-    public EventHandler MouseUp;
+    private static GameController CreateInstance()
+    {
+        var go = GameObject.Find("GameController");
+        if (null == go)
+        {
+            go = new GameObject("GameController");
+        }
+        return go.AddComponent<GameController>();
+    }
 
+    public static GameController Instance
+    {
+        get
+        {
+            if(null == instance)
+            {
+                instance = CreateInstance();
+            }
+            return instance;
+        }
+    }
+
+    public CallBack MouseDown;
+    public CallBack MouseUp;
+    public CallBack<string> MagicGesture;
+
+    private Sprite[] balloonSprites;
 
     void Awake()
     {
-        instance = this;
+        balloonSprites = Resources.LoadAll<Sprite>("balloons");
     }
 
     void Update()
@@ -33,6 +60,4 @@ public class GameController : MonoBehaviour {
             }
         }
     }
-
-
 }

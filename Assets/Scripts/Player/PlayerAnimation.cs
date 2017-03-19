@@ -44,12 +44,12 @@ public class PlayerAnimation : MonoBehaviour {
 
         currentData = GetCurrentAnimation();
         timerFrame = 1f / currentData.framerate;
-        GameController.instance.MouseUp += () => 
+        GameController.Instance.MouseUp += () => 
         {
             SetPlayerStatus(PlayStatus.cast);
         };
 
-        GameController.instance.MouseDown += () =>
+        GameController.Instance.MouseDown += () =>
         {
             SetPlayerStatus(PlayStatus.spellcast);
         };

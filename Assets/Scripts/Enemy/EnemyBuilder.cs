@@ -82,7 +82,7 @@ public class EnemyBuilder : MonoBehaviour {
         {
             float offest = Random.Range(-offestX, offestX);
             GameObject go = Instantiate(darkEnemy, transform.localPosition + Vector3.right * offest, Quaternion.identity) as GameObject;
-            go.GetComponent<EnemyController>().CreateBalloon(1);
+            go.GetComponent<EnemyController>().CreateBalloon(1,true);
             go.transform.parent = enemyList;
             hasCreate = true;
             enemyCount++;
