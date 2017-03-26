@@ -32,10 +32,10 @@ public class EnemyBuilder : MonoBehaviour {
     IEnumerator CreateEnemy()
     {
         yield return new WaitForSeconds(1f);
-        while(true)
+        while(GameController.Instance.gameStaus == GameStatus.Playing)
         {
-            if (enemyCount < MAXENEMYCOUNT)
-            {
+            //if (enemyCount < MAXENEMYCOUNT)
+            //{
                 while (!hasCreate)
                 {
                     int index = Random.Range(0, 9);
@@ -54,10 +54,10 @@ public class EnemyBuilder : MonoBehaviour {
                 }
                 hasCreate = false;
                 yield return new WaitForSeconds(3f);
-            }else
-            {
-                yield return null;
-            }
+            //}else
+            //{
+            //    yield return null;
+            //}
         }
     }
 
