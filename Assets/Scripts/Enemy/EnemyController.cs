@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum EnemyType
+{
+    Normal, Big, Dark, Item
+}
+
 public class EnemyController : MonoBehaviour {
 
     private Animator animator;
@@ -13,8 +18,11 @@ public class EnemyController : MonoBehaviour {
 
     private Transform linepos;
 
-    public GameObject balloonPrefab; //气球的预设
+    private EnemyType enemyType = EnemyType.Normal;//enemy类型
+    private int enemyIndex;//normal 
 
+    public GameObject enemyParticlePrefab;//enemydestroy 身体部件
+    public GameObject balloonPrefab; //气球的预设
     List<GameObject> balloonList = new List<GameObject>();
 
     void Awake()
@@ -22,8 +30,8 @@ public class EnemyController : MonoBehaviour {
         animator = this.GetComponent<Animator>();
         linepos = transform.FindChild("linepos");
 
-        speed = 1f;
-        drag = 0.9f;
+        speed = 1.5f;
+        drag = 1.3f;
         rigidBody2D = this.GetComponent<Rigidbody2D>();
         balloonList.Clear();
     }
@@ -41,7 +49,7 @@ public class EnemyController : MonoBehaviour {
             {
                 PlayLand();
             }
-            rigidBody2D.Sleep();
+            rigidBody2D.velocity = Vector2.zero;
         }else
         {
             float currentSpeed = speed;
@@ -55,7 +63,7 @@ public class EnemyController : MonoBehaviour {
                 PlayPop();
             }
 
-            rigidBody2D.AddForce(Vector2.down * currentSpeed, ForceMode2D.Force);
+            rigidBody2D.velocity = new Vector2(0, -1 *currentSpeed);
         }
 
         //if(Input.GetKeyDown(KeyCode.J))
@@ -98,6 +106,15 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
+    public void SetEnemyTypeAndIndex(EnemyType type, int index = 0)
+    {
+        enemyType = type;
+        if (enemyType.Equals(EnemyType.Normal))
+        {
+            enemyIndex = index;
+        }
+    }
+
     public void BalloonDestroy(GameObject go)
     {
         if (balloonList.Contains(go))
@@ -119,6 +136,31 @@ public class EnemyController : MonoBehaviour {
 
     private void EnemyDestroy()
     {
+        Sprite[] bodyParticle = new Sprite[0];
+        if (enemyType == EnemyType.Normal)
+        {
+            bodyParticle = Resources.LoadAll<Sprite>("enemyParticle/Normal/Other");
+            Sprite[] headParticle = Resources.LoadAll<Sprite>("enemyParticle/Normal/Head");
+            GameObject go = Instantiate(enemyParticlePrefab, transform.position, Quaternion.identity) as GameObject;
+            go.GetComponent<SpriteRenderer>().sprite = headParticle[enemyIndex];
+        }
+        else if (enemyType == EnemyType.Big)
+        {
+            bodyParticle = Resources.LoadAll<Sprite>("enemyParticle/Big");
+        }
+        else if (enemyType == EnemyType.Dark)
+        {
+            bodyParticle = Resources.LoadAll<Sprite>("enemyParticle/Dark");
+        }
 
+        //分解enemy部件
+        for (int i = 0; i < bodyParticle.Length; i++)
+        {
+            GameObject go = Instantiate(enemyParticlePrefab, transform.position, Quaternion.identity) as GameObject;
+            go.GetComponent<SpriteRenderer>().sprite = bodyParticle[i];
+        }
+
+        PublicGameData.gameCurrentScore++;
+        Destroy(gameObject);
     }
 }

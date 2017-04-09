@@ -33,21 +33,21 @@ public class BalloonController : MonoBehaviour {
             float distance = Vector3.Distance(target.localPosition,transform.localPosition);
             if (distance < lineLength)
             {
-                rigidbody.AddForce(Vector2.up * moveSpeedY);
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, moveSpeedY);
             }
             else
             {
-                rigidbody.Sleep();
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
             }
 
-            //if (Mathf.Abs(transform.localPosition.x) > 0.1f)
-            //{
-            //    rigidbody.AddForce((transform.localPosition.x > 0.1f ? Vector2.left : Vector2.right) * moveSpeedX);
-            //}
-            //else
-            //{
-            //    rigidbody.Sleep();
-            //}
+            if (Mathf.Abs(transform.localPosition.x) > 0.1f)
+            {
+                rigidbody.velocity = new Vector2((transform.localPosition.x > 0.1f ? -1 * moveSpeedX : moveSpeedX), rigidbody.velocity.y);
+            }
+            else
+            {
+                rigidbody.velocity = new Vector2(0, rigidbody.velocity.y);
+            }
         }
 
         //if(Input.GetKeyDown(KeyCode.P))

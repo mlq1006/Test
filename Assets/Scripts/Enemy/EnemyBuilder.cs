@@ -69,7 +69,9 @@ public class EnemyBuilder : MonoBehaviour {
 
         float offest = Random.Range(-offestX,offestX);
         GameObject go = Instantiate(normalEnemys[index], transform.localPosition + Vector3.right*offest, Quaternion.identity) as GameObject;
-        go.GetComponent<EnemyController>().CreateBalloon(balloonCount);
+        var enemyController = go.GetComponent<EnemyController>();
+        enemyController.CreateBalloon(balloonCount);
+        enemyController.SetEnemyTypeAndIndex(EnemyType.Normal, index);
         go.transform.parent = enemyList;
         hasCreate = true;
         enemyCount++;
@@ -82,7 +84,9 @@ public class EnemyBuilder : MonoBehaviour {
         {
             float offest = Random.Range(-offestX, offestX);
             GameObject go = Instantiate(darkEnemy, transform.localPosition + Vector3.right * offest, Quaternion.identity) as GameObject;
-            go.GetComponent<EnemyController>().CreateBalloon(1,true);
+            var enemyController = go.GetComponent<EnemyController>();
+            enemyController.CreateBalloon(1, true);
+            enemyController.SetEnemyTypeAndIndex(EnemyType.Dark);
             go.transform.parent = enemyList;
             hasCreate = true;
             enemyCount++;
@@ -97,7 +101,9 @@ public class EnemyBuilder : MonoBehaviour {
             int balloonCount = Random.Range(5, 7);
             float offest = Random.Range(-offestX, offestX);
             GameObject go = Instantiate(bigEnemy, transform.localPosition + Vector3.right * offest, Quaternion.identity) as GameObject;
-            go.GetComponent<EnemyController>().CreateBalloon(balloonCount);
+            var enemyController = go.GetComponent<EnemyController>();
+            enemyController.CreateBalloon(balloonCount);
+            enemyController.SetEnemyTypeAndIndex(EnemyType.Big);
             go.transform.parent = enemyList;
             hasCreate = true;
             enemyCount++;
